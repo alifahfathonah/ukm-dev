@@ -9,36 +9,56 @@ class Data extends MY_Controller {
         $this->load->model('user_model', '', true);
         $this->load->model('data_model', '', true);
         $this->load->model('ukm_model', '', true);
+        $this->load->model('log_model', '', true);
+        $this->load->model('notif_model', '', true);
     }
 
     public function index() {
 
     }
 
-    function tambahukm(){
+    function doupload(){
+        $config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'doc|docx|rtf|xls|xlsx|pdf';
+        $config['max_size']             = 10000;
+        $config['file_ext_tolower']     = TRUE;
+
+        $this->load->library('upload', $config);
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('tambah-kontak', 'Kontak','trim|required|strip_tags');
-        $this->form_validation->set_rules('tambah-user', 'User','strip_tags');
-        $this->form_validation->set_rules('tambah-nama', 'Nama UKM','trim|required|strip_tags|min_length[3]|callback_cek_uname');
+
+        //$this->form_validation->set_rules('baru-attachment', 'File Laporan','trim|required|strip_tags');
+        $this->form_validation->set_rules('baru-pesan', 'Pesan','trim|required|strip_tags');
 
         if($this->form_validation->run() == TRUE){
-            if(addslashes($this->input->post('tambah-user', TRUE)) == 0) {
-                $data = array(
-                    'ukm_name' => addslashes($this->input->post('tambah-nama', TRUE)),
-                    'ukm_contact' => addslashes($this->input->post('tambah-kontak', TRUE))
-                );
+            if (!$this->upload->do_upload('baru-attachment')) {
+                $status['status'] = 0;
+                $status['pesan'] = $this->upload->display_errors();
             } else {
                 $data = array(
-                    'ukm_name' => addslashes($this->input->post('tambah-nama', TRUE)),
-                    'user_id' => addslashes($this->input->post('tambah-user', TRUE)),
-                    'ukm_contact' => addslashes($this->input->post('tambah-kontak', TRUE))
+                    'ukm_id' => $this->access->get_ukmid(),
+                    'data_file' => $this->upload->data('file_name'),
+                    'data_msg' => addslashes($this->input->post('baru-pesan', TRUE)),
+                    'data_from' => $this->access->get_ukmid()
                 );
-            }
-            
-            $this->ukm_model->insert($data);
 
-            $status['status'] = 1;
-            $status['pesan'] = 'UKM baru berhasil dibuat';
+                $dataukm = $this->ukm_model->get_ukm(array("ukm_id" =>$this->access->get_ukmid()))->row();
+
+                $datanotif = array(
+                    'ukm_id' => $this->access->get_ukmid(),
+                    'user_id' => $this->access->get_userid(),
+                    'notif_activity' => "User " . $this->access->get_username() . " dari UKM " . $dataukm->UKM_NAME . " mengirimkan laporan",
+                    'notif_from' => $this->access->get_userid(),
+                    'notif_to' => 2,
+                    'notif_tipe' => 1
+                );
+
+                $this->notif_model->insert($datanotif);
+                $this->data_model->insert($data);
+
+                $status['status'] = 1;
+                $status['pesan'] = 'Laporan berhasil dikirim';
+            }
+            @unlink($_FILES['baru-attachment']);
         }else{
             $status['status'] = 0;
             $status['pesan'] = validation_errors();
@@ -47,66 +67,55 @@ class Data extends MY_Controller {
         echo json_encode($status);
     }
 
-    function editukm(){
+    function editdata(){
+        $config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'doc|docx|rtf|xls|xlsx|pdf';
+        $config['max_size']             = 10000;
+        $config['file_ext_tolower']     = TRUE;
+
+        $this->load->library('upload', $config);
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('edit-kontak', 'Kontak','trim|required|strip_tags');
-        $this->form_validation->set_rules('edit-nama', 'Nama UKM','required|strip_tags');
-        $this->form_validation->set_rules('edit-user', 'User','required|strip_tags');
-        $this->form_validation->set_rules('edit-id', 'UKM ID','required|strip_tags');
+
+        //$this->form_validation->set_rules('baru-attachment', 'File Laporan','trim|required|strip_tags');
+        $this->form_validation->set_rules('edit-pesan', 'Pesan','trim|required|strip_tags');
+        $this->form_validation->set_rules('edit-id', 'Data ID','trim|required|strip_tags');
+        $id = addslashes($this->input->post('edit-id', TRUE));
 
         if($this->form_validation->run() == TRUE){
+            if($_FILES['edit-attachment']['size'] == 0) {
+                $data = array(
+                    'data_msg' => addslashes($this->input->post('edit-pesan', TRUE))
+                );
 
-          $idukm = addslashes($this->input->post('edit-id', TRUE));
-          $iduser = addslashes($this->input->post('edit-user', TRUE));
-          $nama = addslashes($this->input->post('edit-nama', TRUE));
-          $kontak = addslashes($this->input->post('edit-kontak', TRUE));
-          $tempnama = addslashes($this->input->post('edit-tempnama', TRUE));
+                $this->data_model->update($id,$data);
 
-          if($nama != $tempnama) {
-              $this->form_validation->set_rules('edit-nama', 'Nama UKM','callback_cek_uname');
-              if ($this->form_validation->run() == FALSE) {
-                  $status['status'] = 0;
-                  $status['pesan'] = validation_errors();
-              } else {
-                  if($iduser == 0) {
-                      $data = array(
-                        'ukm_name' => $nama,
-                        'ukm_contact' => $kontak
-                      );
-                  } else {
-                      $data = array(
-                        'ukm_name' => $nama,
-                        'user_id' => $iduser,
-                        'ukm_contact' => $kontak
-                      );
-                  }
-                  
+                $status['status'] = 1;
+                $status['pesan'] = 'Data laporan baru berhasil disimpan';
+            } else {
+                $query = $this->data_model->get_data(array("data_id" => $id))->row();
+                $dpath = $_SERVER['DOCUMENT_ROOT'].'/uploads/' . $query->DATA_FILE;
+                $this->deleteFiles($dpath);
 
-                  $this->ukm_model->update($idukm,$data);
+                if (!$this->upload->do_upload('edit-attachment')) {
+                    $status['status'] = 0;
+                    $status['pesan'] = $this->upload->display_errors();
+                } else {
+                    $data = array(
+                        'data_file' => $this->upload->data('file_name'),
+                        'data_msg' => addslashes($this->input->post('edit-pesan', TRUE))
+                    );
 
-                  $status['status'] = 1;
-                  $status['pesan'] = "Perubahan pada UKM " . $tempnama . " berhasil disimpan";
-              }
-          } else {
-              if($iduser == 0) {
-                  $data = array(
-                    'ukm_contact' => $kontak
-                  );
-              } else {
-                  $data = array(
-                    'user_id' => $iduser,
-                    'ukm_contact' => $kontak
-                  );
-              }
+                    $this->data_model->update($id,$data);
 
-              $this->ukm_model->update($idukm,$data);
-
-              $status['status'] = 1;
-              $status['pesan'] = "Perubahan pada UKM " . $tempnama . " berhasil disimpan";
-          }
+                    $status['status'] = 1;
+                    $status['pesan'] = 'Data laporan beserta file laporan baru berhasil disimpan';
+                }
+                @unlink($_FILES['edit-attachment']);
+            }
+            
         }else{
-          $status['status'] = 0;
-          $status['pesan'] = validation_errors();
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
         }
 
         echo json_encode($status);
@@ -136,14 +145,20 @@ class Data extends MY_Controller {
                 $dpath = $path . $data->DATA_FILE;
                 $this->deleteFiles($dpath);
                 $this->data_model->delete($id);
-                $pesan = 'Data ' . addslashes($this->input->post('hapus-nama', TRUE)) . ' beserta filenya berhasil dihapus ';
+                $pesan = 'Data ' . addslashes($this->input->post('hapus-nama', TRUE)) . ' beserta filenya ';
             } else {
-                $pesan = 'Data ' . addslashes($this->input->post('hapus-nama', TRUE)) . ' berhasil dihapus';
+                $pesan = 'Data ' . addslashes($this->input->post('hapus-nama', TRUE)) . ' ';
                 $this->data_model->update($id,array("data_status" => "2"));
             }
 
+            $datalog = array(
+                'log_text' => "User " . $this->access->get_username() . " menghapus " . $pesan,
+                'user_id' => $this->access->get_userid()
+            );
+            $this->log_model->insert($datalog);
+
             $status['status'] = 1;
-            $status['pesan'] = $pesan;
+            $status['pesan'] = $pesan . 'berhasil dihapus';
         }else{
             $status['status'] = 0;
             $status['pesan'] = validation_errors();
@@ -167,14 +182,20 @@ class Data extends MY_Controller {
                     $dpath = $path . "*";
                     $this->deleteFiles($dpath);
                     $this->data_model->deleteall();
-                    $pesan = 'Semua data beserta filenya berhasil dihapus ';
+                    $pesan = 'Semua data laporan beserta filenya';
                 } else {
-                    $pesan = 'Semua data berhasil dihapus';
+                    $pesan = 'Semua data laporan ';
                     $this->data_model->updateall(array("data_status" => "2"));
                 }
 
+                $datalog = array(
+                    'log_text' => "User " . $this->access->get_username() . " menghapus " . $pesan,
+                    'user_id' => $this->access->get_userid()
+                );
+                $this->log_model->insert($datalog);
+
                 $status['status'] = 1;
-                $status['pesan'] = $pesan;
+                $status['pesan'] = $pesan . 'berhasil dihapus';
             } else {
                 $status['status'] = 0;
                 $status['pesan'] = "Anda tidak bisa mempunyai hak akses untuk menghapus file";
@@ -197,6 +218,12 @@ class Data extends MY_Controller {
             $nama = addslashes($this->input->post('undo-nama', TRUE));
             $this->data_model->update($id,array("data_status" => "1"));
 
+            $datalog = array(
+                'log_text' => "User " . $this->access->get_username() . " mengembalikan data " . $nama,
+                'user_id' => $this->access->get_userid()
+            );
+            $this->log_model->insert($datalog);
+
             $status['status'] = 1;
             $status['pesan'] = 'Data ' . $nama . ' berhasil dikembalikan';
         }else{
@@ -205,6 +232,13 @@ class Data extends MY_Controller {
         }
 
         echo json_encode($status);
+    }
+
+    function download($id){
+        $this->load->helper('download');
+        $data = $this->data_model->get_data(array("data_id" => $id))->row();
+        $path = $_SERVER['DOCUMENT_ROOT'].'/uploads/' . $data->DATA_FILE;
+        force_download($path, NULL);
     }
     
     function updateinfo(){
@@ -255,9 +289,10 @@ class Data extends MY_Controller {
         $rows = $this->get_rows();
 
         // run query to get user listing
-        $query = $this->data_model->get_daftardata($start, $rows, $search);
+        $idu = $this->access->get_ukmid();
+        $query = $this->data_model->get_daftardata($start, $rows, $search, $idu);
         $iFilteredTotal = $query->num_rows();
-        $iTotal = $this->data_model->get_count_daftardata($search)->row()->Total;
+        $iTotal = $this->data_model->get_count_daftardata($search, $idu)->row()->Total;
 
         $output = array(
             "sEcho" => intval($_GET['sEcho']),
@@ -272,6 +307,11 @@ class Data extends MY_Controller {
         foreach ($counter as $temp) {
             $shap = $temp->StatusID != 2 ? "" : "disabled";
             $sund = $temp->StatusID == 2 ? "" : "disabled";
+            $tambahan = "";
+            if($this->access->get_ukmid() != 0) {
+                $tambahan = '<button class="btn btn-xs btn-flat btn-info '. $shap .'" onclick="modaledit(\''.$temp->ID.'\', \''.addslashes($temp->UKM).'\', \''.addslashes($temp->File).'\', \''.addslashes($temp->Pesan).'\')"><i class="fa fa-pencil"></i> Edit</button>';               
+            }
+
             $record = array();
             $record[] = $temp->ID;
             $record[] = $temp->UKM;
@@ -279,8 +319,16 @@ class Data extends MY_Controller {
             $record[] = $temp->Dikirim;
             $record[] = $temp->Nama;
             $record[] = $temp->Status;
-            $record[] = '<button class="btn btn-xs btn-flat btn-danger '. $shap .'" onclick="modalhapus(\''.$temp->ID.'\', \''.addslashes($temp->UKM).'\', \''.addslashes($temp->File).'\')"><i class="fa fa-times"></i> Hapus</button>
-                        <button class="btn btn-xs btn-flat btn-warning '. $sund .'" onclick="modalundo(\''.$temp->ID.'\', \''.addslashes($temp->UKM).'\', \''.addslashes($temp->File).'\')"><i class="fa fa-undo"></i> Undo</button>';
+            if($this->access->get_roleid() != 41) {
+                $record[] = '<button class="btn btn-xs btn-flat btn-danger '. $shap .'" onclick="modalhapus(\''.$temp->ID.'\', \''.addslashes($temp->UKM).'\', \''.addslashes($temp->File).'\')"><i class="fa fa-times"></i> Hapus</button>
+                        <button class="btn btn-xs btn-flat btn-warning '. $sund .'" onclick="modalundo(\''.$temp->ID.'\', \''.addslashes($temp->UKM).'\', \''.addslashes($temp->File).'\')"><i class="fa fa-undo"></i> Undo</button>
+                        '. $tambahan .'';
+            } else {
+                $url = base_url() . "data/download/" . $temp->ID;
+                $record[] = '<a class="btn btn-xs btn-flat btn-success" target="_blank" href="'. $url .'">
+                                <i class="fa fa-download"></i> Download
+                            </a>';
+            }
             //$record[] = '<a onclick="modaledit(\''.$temp->ID.'\', \''.addslashes($temp->Username).'\', \''.addslashes($temp->Nama).'\', \''.addslashes($temp->Role).'\', \''.addslashes($temp->Dibuat).'\')" class="btn btn-info btn-xs">Edit</a>
             //             <a onclick="modalhapus(\''.$temp->ID.'\', \''.addslashes($temp->Nama).'\', \''.addslashes($temp->Role).'\')" class="btn btn-danger btn-xs">Hapus</a>
             //             <a onclick="modalpass(\''.$temp->ID.'\', \''.addslashes($temp->Username).')" class="btn btn-success btn-xs">Password</a>';

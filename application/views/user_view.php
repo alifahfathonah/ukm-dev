@@ -29,6 +29,7 @@
                                 <div class="box-header">
                                     <!-- tools -->
                                     <div class="pull-right box-tools">
+                                        <button class="btn btn-sm btn-info" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
                                         <button class="btn btn-sm btn-success" id="btn-tambah-user"><i class="fa fa-plus">&nbsp;</i> Tambah User</button>
                                     </div>
                                     <!-- /.tools -->
@@ -380,6 +381,10 @@
                 $("[data-mask]").inputmask();
                 $('#modal-tambah').on('shown.bs.modal', function (e) {
                     $('#tambah-username').focus();
+                });
+
+                $('#btn-refresh').click(function(){
+                    $('#table-user').dataTable().fnReloadAjax();
                 });
 
                 $('#modal-hapus').on('shown.bs.modal', function (e) {

@@ -42,10 +42,10 @@ class Dashboard extends MY_Controller {
           $id = $this->access->get_userid();
         } else {
           $id = $this->access->get_ukmid();
-          $data['dataagenda'] = $this->agenda_model->get_agenda(array("ukm_id" => $id));
+          $data['dataagenda'] = $this->agenda_model->get_agenda(array("ukm_id" => $id),5);
         }
         $data['welcome_message'] = "Selamat " . $waktu . ucfirst($this->access->get_username()) . ". Hari ini tanggal " . $tanggal;
-        $data['datanotif'] = $this->notif_model->get_notif(array("notif_to" => $id));
+        $data['datanotif'] = $this->notif_model->get_notif(array("notif_to" => $id, "notif_read !=" => 2),5);
 
         // generate view
         $this->load->view('header_view',$datah);
@@ -65,7 +65,7 @@ class Dashboard extends MY_Controller {
         if(is_null($this->access->get_ukmid())) { $id = $this->access->get_userid();
         } else { $id = $this->access->get_ukmid(); }
 
-        $data['datanotif'] = $this->notif_model->get_notif(array("notif_to" => $id));
+        $data['datanotif'] = $this->notif_model->get_notif(array("notif_to" => $id, "notif_read !=" => 2));
 
         // generate view
         $this->load->view('header_view',$datah);
@@ -81,7 +81,7 @@ class Dashboard extends MY_Controller {
         } else { $id = $this->access->get_ukmid(); }
 
         $data['datanotif'] = $this->notif_model->get_notif(array("notif_from" => $id));
-        $data['dataukm'] = $this->ukm_model->get_ukm(array());
+        $data['dataukm'] = $this->ukm_model->get_ukm(array())->result();
         $data['datatiperem'] = $this->notif_model->get_daftartipe(array());
 
         // generate view
@@ -93,17 +93,9 @@ class Dashboard extends MY_Controller {
         $datah['title'] = 'Laporan';
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
 
-        $id = "";
-        if(is_null($this->access->get_ukmid())) { $id = $this->access->get_userid();
-        } else { $id = $this->access->get_ukmid(); }
-
-        $data['datanotif'] = $this->notif_model->get_notif(array("notif_from" => $id));
-        $data['dataukm'] = $this->ukm_model->get_ukm(array());
-        $data['datatiperem'] = $this->notif_model->get_daftartipe(array());
-
         // generate view
         $this->load->view('header_view',$datah);
-        $this->load->view('laporan_view',$data);
+        $this->load->view('laporan_view');
     }
 
     public function log() {
@@ -120,7 +112,7 @@ class Dashboard extends MY_Controller {
         $datah['title'] = 'User';
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
         $data['datarole'] = $this->user_model->get_role();
-        $data['dataukm'] = $this->ukm_model->get_ukm(array());
+        $data['dataukm'] = $this->ukm_model->get_ukm(array())->result;
 
         // generate view
         $this->load->view('header_view',$datah);
@@ -137,6 +129,34 @@ class Dashboard extends MY_Controller {
         $this->load->view('ukm_view',$data);
     }
 
+    public function anggota() {
+        $datah['title'] = 'Anggota';
+        $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
+        //$data['datauser'] = $this->user_model->get_user(array("user_role" => "42"));
+
+        // generate view
+        $this->load->view('header_view',$datah);
+        $this->load->view('anggota_view');
+    }
+
+    public function agenda() {
+        $datah['title'] = 'Agenda';
+        $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
+
+        // generate view
+        $this->load->view('header_view',$datah);
+        $this->load->view('agenda_view');
+    }
+
+    public function profil() {
+        $datah['title'] = 'Profil';
+        $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
+
+        // generate view
+        $this->load->view('header_view',$datah);
+        $this->load->view('profil_view');
+    }
+
     public function get_databox() {
         $id = "";
         if(is_null($this->access->get_ukmid())) {
@@ -151,7 +171,7 @@ class Dashboard extends MY_Controller {
         $data['boxukm'] = $this->ukm_model->get_total(array("ukm_status" => "1"));
         $data['boxuser'] = $this->user_model->get_total(array());
         $data['boxlog'] = $this->log_model->get_total(array());
-        $data['boxnotif'] = $this->notif_model->get_total(array("notif_to" => $id));
+        $data['boxnotif'] = $this->notif_model->get_total(array("notif_to" => $id, "notif_read !=" => 2));
         $data['boxanggota'] = $this->anggota_model->get_total(array("ukm_id" => $id));
         $data['boxagenda'] = $this->agenda_model->get_total(array("ukm_id" => $id));
         $data['boxrem'] = $this->notif_model->get_total(array("notif_from" => $id));

@@ -29,11 +29,8 @@
                                 <div class="box-header">
                                     <!-- tools -->
                                     <div class="pull-right box-tools">
-                                        <!-- button with a dropdown -->
-                                        <div class="btn-group">
-                                            <button class="btn btn-danger btn-sm" id="btn-hapus-log" name="btn-hapus-log"><i class="fa fa-times"></i> Hapus Semua Log</button>
-                                        </div>
-
+                                      <button class="btn btn-sm btn-info" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
+                                      <button class="btn btn-danger btn-sm" id="btn-hapus-log" name="btn-hapus-log"><i class="fa fa-times"></i> Hapus Semua Log</button>
                                     </div>
                                     <!-- /.tools -->
                                 </div><!-- /.box-header -->
@@ -67,7 +64,7 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-        <!-- Modal Hapus UKM -->
+        <!-- Modal Hapus Log -->
         <div class="modal fade" id="modal-hapus" data-backdrop="static">
           <div class="modal-dialog" style="width: 26%;">
               <div class="modal-content">
@@ -104,6 +101,10 @@
                 $('#btn-hapus-log').click(function(){
                     $('#form-pesan-hapus').html('');
                     $('#modal-hapus').modal('show');
+                });
+
+                $('#btn-refresh').click(function(){
+                    location.reload();
                 });
                 
                 // Hapus log

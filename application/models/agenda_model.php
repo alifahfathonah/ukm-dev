@@ -37,12 +37,12 @@ class Agenda_model extends CI_Model {
         $this->db->update('agenda', $data);
     }
 
-    function get_agenda($parameter) {
+    function get_agenda($parameter,$limit = 0) {
         $this->db->select('agenda.*, tipenotif.tipe_nama AS tipe_nama, tipenotif.tipe_teks AS teks');
         $this->db->from('agenda');
         $this->db->join('tipenotif', 'agenda.agenda_status = tipenotif.tipe_id');
         $this->db->where($parameter);
-        $this->db->limit(7);
+        $this->db->limit($limit);
         $query = $this->db->get();
         return (count($query->num_rows()) > 0 ? $query->result() : NULL);
     }

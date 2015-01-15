@@ -18,6 +18,15 @@ class Notif_model extends CI_Model {
         $this->db->delete('notifikasi');
     }
 
+    function deleteall() {
+        $this->db->empty_table('notifikasi');   
+    }
+
+    function updateall($parameter,$data) {
+        $this->db->where($parameter);
+        $this->db->update('notifikasi', $data);
+    }
+
     function selectone($id) {
         $this->db->select('*');
         $this->db->from('notifikasi');
@@ -54,14 +63,14 @@ class Notif_model extends CI_Model {
         return (count($query->num_rows()) > 0 ? $query->result() : NULL);
     }
 
-    function get_notif($parameter) {
+    function get_notif($parameter,$limit = 0) {
         $this->db->select('notifikasi.*, tipenotif.tipe_nama AS tipe_nama, tipenotif.tipe_teks AS teks, ukm.ukm_name AS ukm_name, user.user_name AS user_name');
         $this->db->from('notifikasi');
         $this->db->join('tipenotif', 'notifikasi.notif_tipe = tipenotif.tipe_id');
         $this->db->join('ukm', 'notifikasi.ukm_id = ukm.ukm_id');
         $this->db->join('user', 'notifikasi.user_id = user.user_id');
         $this->db->where($parameter);
-        $this->db->limit(7);
+        $this->db->limit($limit);
         $this->db->order_by("notif_time","desc");
         $query = $this->db->get();
         return (count($query->num_rows()) > 0 ? $query->result() : NULL);

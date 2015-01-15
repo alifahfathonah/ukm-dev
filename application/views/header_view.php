@@ -48,6 +48,8 @@
         <script src="<?=base_url();?>public/assets/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
         <!-- iCheck -->
         <script src="<?=base_url();?>public/assets/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+        <!-- ajaxfileupload -->
+        <script src="<?=base_url();?>public/assets/js/ajaxfileupload.js" type="text/javascript"></script>
 
         <!-- Datatables -->
         <script src="<?=base_url();?>public/assets/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>

@@ -50,7 +50,7 @@ class Ukm_model extends CI_Model {
         $this->db->from('ukm');
         $this->db->where($parameter);
         $query = $this->db->get();
-        return (count($query->num_rows()) > 0 ? $query->result() : NULL);
+        return (count($query->num_rows()) > 0 ? $query : NULL);
     }
 
     function get_daftarukm($start, $rows, $search) {

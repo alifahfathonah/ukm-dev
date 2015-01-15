@@ -29,6 +29,7 @@
                                 <div class="box-header">
                                     <!-- tools -->
                                     <div class="pull-right box-tools">
+                                        <button class="btn btn-sm btn-info" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
                                         <button class="btn btn-sm btn-success" id="btn-tambah-ukm"><i class="fa fa-plus">&nbsp;</i> Tambah UKM</button>
                                     </div>
                                     <!-- /.tools -->
@@ -319,6 +320,10 @@
 
                 $('#modal-hapus').on('shown.bs.modal', function (e) {
                     $('#btn-hapus').focus();
+                });
+
+                $('#btn-refresh').click(function(){
+                    $('#table-ukm').dataTable().fnReloadAjax();
                 });
 
                 $('#modal-edit').on('shown.bs.modal', function (e) {

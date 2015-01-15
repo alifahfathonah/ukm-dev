@@ -64,7 +64,7 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-        <!-- Modal Tambah Counter -->
+        <!-- Modal Tambah reminder -->
         <div class="modal fade" id="modal-tambah" tabindex="-999" role="dialog" aria-labelledby="btn-tambah-reminder" aria-hidden="true">
             <div class="modal-dialog" style="width: 350px;">
                 <div class="modal-content">
@@ -94,7 +94,7 @@
                                             </div><!-- /.input group -->
                                         </div>
                                         <div class="form-group">
-                                            <textarea id="rem-teks" name="rem-teks" class="form-control" rows="3" style="overflow:auto;resize:none" placeholder="pesan kamu"></textarea>
+                                            <textarea id="rem-teks" name="rem-teks" class="form-control" rows="3" style="overflow:auto;resize:none" placeholder="Pesan Anda"></textarea>
                                         </div>
                                         <div class="form-group">
                                             <div class="input-group">
