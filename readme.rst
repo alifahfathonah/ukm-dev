@@ -1,62 +1,37 @@
 ###################
-What is CodeIgniter
+Tentang apakah ini?
 ###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+Berisi projek akhir mata kuliah workshop sim, isinya tentang sistem informasi manajemen
+ukm di kampus kami. mulai dari pelaporan, manajemen agenda, anggota, berita, notifikasi
+dan banyak lagi (dikembangkan). pada sistem ini terdapat 3 level user yaitu ukm, manajemen,
+dan administrator. setiap user mempunyai hak akses tersendiri.
 
 *******************
-Release Information
+Perubahan dan Fitur
 *******************
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<http://www.codeigniter.com/download>`_ page.
-
-**************************
-Changelog and New Features
-**************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+- nanti diupdate
 
 *******************
 Server Requirements
 *******************
 
--  PHP version 5.2.4 or newer.
-
-************
-Installation
-************
-
-Please see the `installation section <http://www.codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+-  PHP version 5.2.4 atau terbaru.
 
 *******
 License
 *******
 
 Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+agreement <https://github.com/yufieko/ukm-dev/blob/master/LICENSE>`_.
 
 *********
 Resources
 *********
 
+CodeIgniter 3-develop, AdminLTE Template
 -  `User Guide <http://www.codeigniter.com/docs>`_
 -  `Community Forums <http://forum.codeigniter.com/>`_
 -  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
 -  `Community IRC <http://www.codeigniter.com/irc>`_
-
-***************
-Acknowledgement
-***************
-
-The EllisLab team and The Reactor Engineers would like to thank all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
