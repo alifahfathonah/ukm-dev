@@ -38,7 +38,7 @@ class Dashboard extends MY_Controller {
         }
 
         $id = "";
-        if(is_null($this->access->get_ukmid())) {
+        if($this->access->get_ukmid() == 0) {
           $id = $this->access->get_userid();
         } else {
           $id = $this->access->get_ukmid();
@@ -62,7 +62,7 @@ class Dashboard extends MY_Controller {
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
 
         $id = "";
-        if(is_null($this->access->get_ukmid())) { $id = $this->access->get_userid();
+        if($this->access->get_ukmid() == 0) { $id = $this->access->get_userid();
         } else { $id = $this->access->get_ukmid(); }
 
         $data['datanotif'] = $this->notif_model->get_notif(array("notif_to" => $id, "notif_read !=" => 2));
@@ -112,7 +112,7 @@ class Dashboard extends MY_Controller {
         $datah['title'] = 'User';
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
         $data['datarole'] = $this->user_model->get_role();
-        $data['dataukm'] = $this->ukm_model->get_ukm(array())->result;
+        $data['dataukm'] = $this->ukm_model->get_ukm(array())->result();
 
         // generate view
         $this->load->view('header_view',$datah);
@@ -159,7 +159,7 @@ class Dashboard extends MY_Controller {
 
     public function get_databox() {
         $id = "";
-        if(is_null($this->access->get_ukmid())) {
+        if($this->access->get_ukmid() == 0) {
           $id = $this->access->get_userid();
           $data['boxlaporan'] = $this->data_model->get_total(array());
         } else {

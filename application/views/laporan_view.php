@@ -9,7 +9,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<?=base_url();?>dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li class="active">UKM</li>
+                        <li class="active">Laporan</li>
                     </ol>
                 </section>
 
