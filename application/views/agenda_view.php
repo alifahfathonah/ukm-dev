@@ -35,26 +35,16 @@
                                     <!-- /.tools -->
                                 </div><!-- /.box-header -->
                                 <div class="box-body table-responsive">
-                                    <table id="table-anggota" class="table table-bordered table-hover">
+                                    <table id="table-agenda" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Nama</th>
+                                                <th>Judul</th>
+                                                <th>Waktu</th>
                                                 <th>Status</th>
-                                                <th>Level</th>
                                                 <th>Opsi</th>
                                             </tr>
                                         </thead>
-
-                                        <tfoot>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nama</th>
-                                                <th>Status</th>
-                                                <th>Level</th>
-                                                <th>Opsi</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div>
@@ -62,49 +52,47 @@
                         <!-- Right Col -->
                         <section class="col-lg-4">
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-xs-12">
                                     <!-- small box -->
                                     <div class="small-box bg-aqua">
                                         <div class="inner">
-                                            <h3 id="boxanggota">
+                                            <h3 id="boxsemua">
                                                 0
                                             </h3>
-                                            <p>Jumlah Anggota</p>
+                                            <p>Jumlah Agenda</p>
                                         </div>
                                         <div class="small-box-footer">
                                         </div>
                                     </div>
                                     <!-- small box -->
-                                    <div class="small-box bg-red">
+                                    <div class="small-box bg-blue">
                                         <div class="inner">
-                                            <h3 id="boxnon">
+                                            <h3 id="boxpublish">
                                                 0
                                             </h3>
-                                            <p>Anggota Nonaktif</p>
+                                            <p>Jumlah Publish</p>
                                         </div>
                                         <div class="small-box-footer">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-navy">
+                                        <div class="inner">
+                                            <h3 id="boxdraft">
+                                                0
+                                            </h3>
+                                            <p>Jumlah Draft</p>
+                                        </div>
+                                        <div class="small-box-footer">
+                                        </div>
+                                    </div>
                                     <!-- small box -->
                                     <div class="small-box bg-green">
                                         <div class="inner">
-                                            <h3 id="boxaktif">
+                                            <h3 id="boxselesai">
                                                 0
                                             </h3>
-                                            <p>Anggota Aktif</p>
-                                        </div>
-                                        <div class="small-box-footer">
-                                        </div>
-                                    </div>
-                                    <!-- small box -->
-                                    <div class="small-box bg-maroon">
-                                        <div class="inner">
-                                            <h3 id="boxpengurus">
-                                                0
-                                            </h3>
-                                            <p>Jumlah Pengurus</p>
+                                            <p>Jumlah Selesai</p>
                                         </div>
                                         <div class="small-box-footer">
                                         </div>
@@ -122,28 +110,28 @@
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
 
-      <!-- Modal Hapus Anggota -->
+      <!-- Modal Hapus Agenda -->
       <div class="modal fade" id="modal-hapus" data-backdrop="static">
           <div class="modal-dialog" style="width: 350px;">
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title"><i class="fa fa-users"></i> Hapus Anggota</h4>
+                      <h4 class="modal-title"><i class="fa fa-sort-alpha-asc"></i> Hapus Agenda</h4>
                   </div>
                   <div class="modal-body">
                       <div class="box-body table-responsive">
                           <span id="form-pesan-hapus">
                           </span>
-                          <?php echo form_open('anggota/hapus', 'id="form-hapus"') ?>
+                          <?php echo form_open('agenda/hapus', 'id="form-hapus"') ?>
                           <div class="box-body">
                               <div class="row">
                                   <div class="col-md-12">
                                           <input type="hidden" id="hapus-id" name="hapus-id" />
                                           <input type="hidden" id="hapus-uname" name="hapus-uname" />
-                                          <p>Apakah Anda yakin ingin menghapus Anggota berikut ?</p>
+                                          <p>Apakah Anda yakin ingin menghapus Agenda berikut ?</p>
                                           <div class="callout callout-info">
-                                              <p>Nama : <span id="hapus-nama"> </span></p>
-                                              <p>Level : <span id="hapus-level"> </span></p>
+                                              <p>Judul : <span id="hapus-nama"> </span></p>
+                                              <p>Waktu : <span id="hapus-waktu"> </span></p>
                                           </div>
 
                                   </div>
@@ -160,55 +148,50 @@
           </div>
       </div>
 
-      <!-- Modal Edit Anggota -->
+      <!-- Modal Edit Agenda -->
       <div class="modal fade" id="modal-edit" data-backdrop="static">
           <div class="modal-dialog" style="width: 30%;">
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title"><i class="fa fa-users"></i> Edit Anggota</h4>
+                      <h4 class="modal-title"><i class="fa fa-sort-alpha-asc"></i> Edit Agenda</h4>
                   </div>
                   <div class="modal-body">
                       <div class="box-body table-responsive">
                           <span id="form-pesan-edit">
                           </span>
-                          <?php echo form_open('anggota/edit', 'id="form-edit"') ?>
+                          <?php echo form_open('agenda/edit', 'id="form-edit"') ?>
                           <input type="hidden" id="edit-id" name="edit-id" readonly="" />
                           <div class="box-body">
                               <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group">
-
                                       <div class="input-group">
-                                        <span class="input-group-addon">Nama:</span>
-                                        <input type="text" class="form-control" id="edit-nama" name="edit-nama" placeholder="Nama Anggota" />
+                                        <span class="input-group-addon">Judul:</span>
+                                        <input type="text" class="form-control" id="edit-judul" name="edit-judul" placeholder="Judul Agenda" />
                                       </div><!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <span class="input-group-addon">Waktu:</span>
+                                        <input type="text" class="form-control" id="edit-time" name="edit-time" placeholder="Waktu Awal" />
+                                      </div><!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                      <textarea name="edit-teks" id="edit-teks" class="form-control" placeholder="Deskripsi Agenda" style="height: 70px;overflow:auto;resize:none"></textarea>
                                     </div>
                                     <div class="form-group">
                                       <div class="input-group">
                                         <span class="input-group-addon">Status:</span>
                                         <select class="form-control" id="edit-status" name="edit-status">
-                                            <option value="1">Aktif</option>
-                                            <option value="0">Nonaktif</option>
+                                            <option value="1">Publish</option>
+                                            <option value="0">Draft</option>
+                                            <option value="3">Selesai</option>
                                         </select>
 
-                                        </div><!-- /.input group -->
-                                      </div>
-                                      <div class="form-group">
-
-                                        <div class="input-group">
-                                          <span class="input-group-addon">Level:</span>
-                                          <select class="form-control" id="edit-level" name="edit-level">
-                                              <option value="10">Anggota</option>
-                                              <option value="11">Pengurus</option>
-                                              <option value="12">Ketua</option>
-                                          </select>
-
-                                          </div><!-- /.input group -->
-                                        </div>
-                                      </div>
-
-
+                                      </div><!-- /.input group -->
+                                    </div>
+                                  </div>
                               </div>
                               <?php echo form_close(); ?>
                           </div><!-- /.box-body -->
@@ -222,44 +205,49 @@
           </div>
       </div> <!-- /.modal-edit -->
 
-      <!-- Modal Tambah Anggota -->
+      <!-- Modal Tambah Agenda -->
       <div class="modal fade" id="modal-tambah" data-backdrop="static">
           <div class="modal-dialog" style="width: 30%;">
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title"><i class="fa fa-users"></i> Tambah Anggota</h4>
+                      <h4 class="modal-title"><i class="fa fa-sort-alpha-asc"></i> Tambah Agenda</h4>
                   </div>
                   <div class="modal-body">
                       <div class="box-body table-responsive">
                           <span id="form-pesan-tambah">
                           </span>
-                          <?php echo form_open('anggota/tambah', 'id="form-tambah"') ?>
+                          <?php echo form_open('agenda/tambah', 'id="form-tambah"') ?>
                           <div class="box-body">
                               <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group">
-
                                       <div class="input-group">
-                                        <span class="input-group-addon">Nama:</span>
-                                        <input type="text" class="form-control" id="tambah-nama" name="tambah-nama" placeholder="Nama Anggota" />
+                                        <span class="input-group-addon">Judul:</span>
+                                        <input type="text" class="form-control" id="tambah-judul" name="tambah-judul" placeholder="Judul Agenda" />
                                       </div><!-- /.input group -->
                                     </div>
-                                      <div class="form-group">
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <span class="input-group-addon">Waktu:</span>
+                                        <input type="text" class="form-control" id="tambah-time" name="tambah-time" placeholder="Waktu Agenda" />
+                                      </div><!-- /.input group -->
+                                    </div>
+                                    <div class="form-group">
+                                      <textarea name="tambah-teks" id="tambah-teks" class="form-control" placeholder="Deskripsi Agenda" style="height: 70px;overflow:auto;resize:none"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <span class="input-group-addon">Status:</span>
+                                        <select class="form-control" id="tambah-status" name="tambah-status">
+                                            <option value="1">Publish</option>
+                                            <option value="0">Draft</option>
+                                            <option value="3">Selesai</option>
+                                        </select>
 
-                                        <div class="input-group">
-                                          <span class="input-group-addon">Level:</span>
-                                          <select class="form-control" id="tambah-level" name="tambah-level">
-                                              <option value="10">Anggota</option>
-                                              <option value="11">Pengurus</option>
-                                              <option value="12">Ketua</option>
-                                          </select>
-
-                                          </div><!-- /.input group -->
-                                        </div>
-                                      </div>
-
-
+                                      </div><!-- /.input group -->
+                                    </div>
+                                  </div>
                               </div>
                               <?php echo form_close(); ?>
                           </div><!-- /.box-body -->
@@ -273,41 +261,82 @@
           </div>
       </div> <!-- /.modal-tambah -->
 
+      <!-- Modal lihat Agenda -->
+      <div class="modal fade" id="modal-lihat" data-backdrop="static">
+          <div class="modal-dialog" style="width: 30%;">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title"><i class="fa fa-sort-alpha-asc"></i> Lihat Detail Agenda</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="box-body">
+                          <dl class="dl-horizontal">
+                              <dt>Judul</dt>
+                              <dd><span id="lihat-judul"></span></dd>
+                              <dt>Waktu</dt>
+                              <dd><span id="lihat-waktu"></span></dd>
+                              <dt>Deskripsi</dt>
+                              <dd><span id="lihat-teks"></span></dd>
+                              <dt>Status</dt>
+                              <dd><span id="lihat-status"></span></dd>
+                          </dl>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+                  </div>
+              </div>
+          </div>
+      </div> <!-- /.modal-lihat -->
+
         <script type="text/javascript">
-            function modaledit(id, nama, status, level){
+            function modaledit(id, judul, status, teks, time, timeto){
+                var waktu = time + " sampai " + timeto;
                 $('#edit-id').val(id);
-                $('#edit-nama').val(nama);
+                $('#edit-judul').val(judul);
+                $('#edit-teks').val(teks);
+                $('#edit-time').val(waktu);
                 $("#edit-status option").filter(function(){
                     return ( ($(this).val() == status) || ($(this).text() == status) );
-                }).prop('selected', true);
-                $("#edit-level option").filter(function(){
-                  return ( ($(this).val() == level) || ($(this).text() == level) );
                 }).prop('selected', true);
                 $('#modal-edit').modal('show');
             }
 
-            function modalhapus(id, nama, level){
+            function modallihat(judul, status, teks, time, timeto){
+                var waktu = time + " sampai " + timeto;
+                $('#lihat-judul').html(judul);
+                $('#lihat-teks').html(teks);
+                $('#lihat-waktu').html(waktu);
+                $('#lihat-status').html(status);
+                $('#modal-lihat').modal('show');
+            }
+
+            function modalhapus(id, judul, time){
                 $('#form-pesan-hapus').html('');
                 $('#modal-hapus').modal('show');
                 $('#hapus-id').val(id);
-                $('#hapus-uname').val(nama);
-                $('#hapus-nama').html(nama);
-                $('#hapus-level').html(level);
+                $('#hapus-uname').val(judul);
+                $('#hapus-nama').html(judul);
+                $('#hapus-waktu').html(time);
             }
 
             function refresh_jumlah(){
-                $.getJSON('<?=base_url();?>anggota/get_databox', function(obj) {
-                    $('#boxanggota').html(obj.boxanggota);
-                    $('#boxpengurus').html(obj.boxpengurus);
-                    $('#boxaktif').html(obj.boxaktif);
-                    $('#boxnon').html(obj.boxnon);
+                $.getJSON('<?=base_url();?>agenda/get_databox', function(obj) {
+                    $('#boxsemua').html(obj.boxsemua);
+                    $('#boxpublish').html(obj.boxpublish);
+                    $('#boxdraft').html(obj.boxdraft);
+                    $('#boxselesai').html(obj.boxselesai);
                 });
             }
 
             $(document).ready(function() {
+                $('#tambah-time').daterangepicker({timePicker: true, timePickerIncrement: 1, format: 'YYYY-MM-DD hh:mm:ss', separator: ' sampai '});
+                $('#edit-time').daterangepicker({timePicker: true, timePickerIncrement: 1, format: 'YYYY-MM-DD hh:mm:ss', separator: ' sampai '});
+
                 refresh_jumlah();
                 $('#btn-refresh').click(function(){
-                    $('#table-anggota').dataTable().fnReloadAjax();
+                    $('#table-agenda').dataTable().fnReloadAjax();
                     refresh_jumlah();
                 });
 
@@ -319,36 +348,36 @@
                     $('#edit-nama').focus();
                 });
 
-                $('#btn-tambah-anggota').click(function(){
+                $('#btn-tambah-agenda').click(function(){
                     $('#form-pesan-tambah').html('');
                     $('#modal-tambah').modal('show');
                 });
 
-                $('#table-anggota').dataTable({
+                $('#table-agenda').dataTable({
                     "sPaginationType": "bootstrap",
                     "bProcessing": false,
                     "bServerSide": true,
                     "bJQueryUI": true,
                     "iDisplayLength":6,
-                    "sAjaxSource": "<?=base_url()?>anggota/getanggota",
+                    "sAjaxSource": "<?=base_url()?>agenda/getagenda",
                     "aoColumns": [
+                            {"bSearchable": false, "bSortable": false, "sWidth": 30},
                             {"bSearchable": false, "bSortable": false},
-                            {"bSearchable": false, "bSortable": false},
-                            {"bSearchable": false, "bSortable": false},
-                            {"bSearchable": false, "bSortable": false},
-                            {"bSearchable": false, "bSortable": false}
+                            {"bSearchable": false, "bSortable": false, "sWidth": 120},
+                            {"bSearchable": false, "bSortable": false, "sWidth": 50},
+                            {"bSearchable": false, "bSortable": false, "sWidth": 160}
                     ],
 
                 });
 
-                // Tambah User
+                // Tambah agenda
                 $('#btn-simpan').click(function(){
                     $('#form-tambah').submit();
                     $('#btn-simpan').addClass('disabled');
                 });
                 $('#form-tambah').submit(function(){
                     $.ajax({
-                        url:"<?=base_url()?>anggota/tambah",
+                        url:"<?=base_url()?>agenda/tambah",
                         type:"POST",
                         data:$('#form-tambah').serialize(),
                         cache: false,
@@ -358,7 +387,7 @@
                                 $('#form-pesan-tambah').html(pesan_succ(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-tambah').html('')}, 2000);
                                 setTimeout(function(){$('#modal-tambah').modal('hide')}, 2500);
-                                setTimeout(function(){ $('#table-anggota').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
+                                setTimeout(function(){ $('#table-agenda').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
                             }else{
                                 $('#form-pesan-tambah').html(pesan_err(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-tambah').html('')}, 5000);
@@ -370,14 +399,14 @@
                     return false;
                 });
 
-                // Hapus anggota
+                // Hapus agenda
                 $('#btn-hapus').click(function(){
                     $('#form-hapus').submit();
                     $('#btn-hapus').addClass('disabled');
                 });
                 $('#form-hapus').submit(function(){
                     $.ajax({
-                        url:"<?=base_url()?>anggota/hapus",
+                        url:"<?=base_url()?>agenda/hapus",
                         type:"POST",
                         data:$('#form-hapus').serialize(),
                         cache: false,
@@ -387,7 +416,7 @@
                                 $('#form-pesan-hapus').html(pesan_succ(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-hapus').html('')}, 2000);
                                 setTimeout(function(){$('#modal-hapus').modal('hide')}, 2500);
-                                setTimeout(function(){ $('#table-anggota').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
+                                setTimeout(function(){ $('#table-agenda').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
                             }else{
                                 $('#form-pesan-hapus').html(pesan_err(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-hapus').html('')}, 5000);
@@ -399,7 +428,7 @@
                     return false;
                 });
 
-                // Edit anggota
+                // Edit agenda
                 $('#btn-edit').click(function(){
                     $('#form-edit').submit();
                     $('#btn-edit').addClass('disabled');
@@ -407,7 +436,7 @@
 
                 $('#form-edit').submit(function(){
                     $.ajax({
-                        url:"<?=base_url()?>anggota/edit",
+                        url:"<?=base_url()?>agenda/edit",
                         type:"POST",
                         data:$('#form-edit').serialize(),
                         cache: false,
@@ -417,7 +446,7 @@
                                 $('#form-pesan-edit').html(pesan_succ(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-edit').html('')}, 2000);
                                 setTimeout(function(){$('#modal-edit').modal('hide')}, 2500);
-                                setTimeout(function(){ $('#table-anggota').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
+                                setTimeout(function(){ $('#table-agenda').dataTable().fnReloadAjax(); refresh_jumlah(); }, 2500);
                             }else{
                                 $('#form-pesan-edit').html(pesan_err(obj.pesan));
                                 setTimeout(function(){$('#form-pesan-edit').html('')}, 2000);
