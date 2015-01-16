@@ -114,12 +114,22 @@ class User_model extends CI_Model {
     }
     
     function get_user($parameter) {
-        $this->db->select('user.*, role.role_name AS Role');
+        $this->db->select('user.*, role.role_name AS Role, ukm.ukm_name AS UKM');
         $this->db->from('user');
         $this->db->join('role', 'user.user_role = role.role_id');
+        $this->db->join('ukm', 'user.ukm_id = ukm.ukm_id');
         $this->db->where($parameter);
         $query = $this->db->get();
-        return (count($query->num_rows()) > 0 ? $query->result() : NULL);
+        return (count($query->num_rows()) > 0 ? $query : NULL);
+    }
+
+    function get_userakses($parameter) {
+        $this->db->select('user_akses.*, role.role_name AS Role');
+        $this->db->from('user_akses');
+        $this->db->join('role', 'user_akses.role_id = role.role_id');
+        $this->db->where($parameter);
+        $query = $this->db->get();
+        return (count($query->num_rows()) > 0 ? $query : NULL);
     }
 
     function get_daftaruser($start, $rows, $search) {

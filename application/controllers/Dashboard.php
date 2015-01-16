@@ -122,7 +122,7 @@ class Dashboard extends MY_Controller {
     public function ukm() {
         $datah['title'] = 'UKM';
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
-        $data['datauser'] = $this->user_model->get_user(array("user_role" => "42"));
+        $data['datauser'] = $this->user_model->get_user(array("user_role" => "42"))->result();
 
         // generate view
         $this->load->view('header_view',$datah);
@@ -151,10 +151,12 @@ class Dashboard extends MY_Controller {
     public function profil() {
         $datah['title'] = 'Profil';
         $datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
+        $data['datauser'] = $this->user_model->get_user(array("user.user_id" => $this->access->get_userid() ))->row();
+        $data['dataakses'] = $this->user_model->get_userakses(array("user_akses.role_id" => $this->access->get_roleid() ))->result();
 
         // generate view
         $this->load->view('header_view',$datah);
-        $this->load->view('profil_view');
+        $this->load->view('profil_view',$data);
     }
 
     public function get_databox() {
