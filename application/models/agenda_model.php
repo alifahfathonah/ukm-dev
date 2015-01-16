@@ -47,6 +47,19 @@ class Agenda_model extends CI_Model {
         return (count($query->num_rows()) > 0 ? $query->result() : NULL);
     }
 
+    function view_agenda(){
+      $result = array();
+      $this->db->select('*');
+      $this->db->from('agenda');
+      $this->db->join('ukm','ukm.ukm_id = agenda.ukm_id');
+      $this->db->order_by('agenda_time','desc');
+      $query =$this->db->get();
+      if($query->num_rows > 0){
+        $result = $query->result();
+      }
+      return $result;
+    }
+
     function get_daftaragenda($ukm, $start, $rows, $search) {
 
         $sql = "SELECT
