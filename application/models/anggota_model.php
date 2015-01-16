@@ -53,7 +53,7 @@ class Anggota_model extends CI_Model {
 
     }
 
-    function get_daftaranggota($start, $rows, $search) {
+    function get_daftaranggota($ukm, $start, $rows, $search) {
 
         $sql = "SELECT
             `anggota`.`anggota_id` AS ID,
@@ -66,25 +66,25 @@ class Anggota_model extends CI_Model {
             REPLACE(REPLACE(`anggota`.`anggota_status`,'0','Nonaktif'),'1','Aktif') AS Status
         FROM `anggota`
         INNER JOIN `ukm` ON (`anggota`.`ukm_id` = `ukm`.`ukm_id`)
-        WHERE `anggota`.`anggota_id` LIKE '%".$search."%'
+        WHERE `anggota`.`ukm_id` = ". $ukm ." AND (`anggota`.`anggota_id` LIKE '%".$search."%'
                 OR `anggota`.`anggota_name` LIKE '%".$search."%'
                 OR REPLACE(REPLACE(`anggota`.`anggota_status`,'0','Nonaktif'),'1','Aktif') LIKE '%".$search."%'
-                OR REPLACE(REPLACE(REPLACE(`anggota`.`anggota_level`,'10','Anggota'),'11','Pengurus'),'12','Ketua') LIKE '%".$search."%'
+                OR REPLACE(REPLACE(REPLACE(`anggota`.`anggota_level`,'10','Anggota'),'11','Pengurus'),'12','Ketua') LIKE '%".$search."%')
         ORDER BY `anggota`.`anggota_id` LIMIT ".$start.",".$rows."";
 
         return $this->db->query($sql);
     }
 
-    function get_count_daftaranggota($search) {
+    function get_count_daftaranggota($ukm, $search) {
 
         $sql = "SELECT
             COUNT(*) AS Total
         FROM `anggota`
         INNER JOIN `ukm` ON (`anggota`.`ukm_id` = `ukm`.`ukm_id`)
-        WHERE `anggota`.`anggota_id` LIKE '%".$search."%'
+        WHERE `anggota`.`ukm_id` = ". $ukm ." AND (`anggota`.`anggota_id` LIKE '%".$search."%'
                 OR `anggota`.`anggota_name` LIKE '%".$search."%'
                 OR REPLACE(REPLACE(`anggota`.`anggota_status`,'0','Nonaktif'),'1','Aktif') LIKE '%".$search."%'
-                OR REPLACE(REPLACE(REPLACE(`anggota`.`anggota_level`,'10','Anggota'),'11','Pengurus'),'12','Ketua') LIKE '%".$search."%'";
+                OR REPLACE(REPLACE(REPLACE(`anggota`.`anggota_level`,'10','Anggota'),'11','Pengurus'),'12','Ketua') LIKE '%".$search."%')";
 
         return $this->db->query($sql);
     }

@@ -104,11 +104,12 @@ class Anggota extends MY_Controller {
         // limit
         $start = $this->get_start();
         $rows = $this->get_rows();
+        $ukmid = $this->access->get_ukmid();
 
         // run query to get user listing
-        $query = $this->anggota_model->get_daftaranggota($start, $rows, $search);
+        $query = $this->anggota_model->get_daftaranggota($ukmid, $start, $rows, $search);
         $iFilteredTotal = $query->num_rows();
-        $iTotal = $this->anggota_model->get_count_daftaranggota($search)->row()->Total;
+        $iTotal = $this->anggota_model->get_count_daftaranggota($ukmid, $search)->row()->Total;
 
         $output = array(
             "sEcho" => intval($_GET['sEcho']),
@@ -177,11 +178,12 @@ class Anggota extends MY_Controller {
     }
 
     public function get_databox() {
+        $ukmid = $this->access->get_ukmid();
         // data buat box
-        $data['boxanggota'] = $this->anggota_model->get_total(array("anggota_level" => 10));
-        $data['boxpengurus'] = $this->anggota_model->get_total(array("anggota_level" => 11));
-        $data['boxnon'] = $this->anggota_model->get_total(array("anggota_status" => 0));
-        $data['boxaktif'] = $this->anggota_model->get_total(array("anggota_status" => 1));
+        $data['boxanggota'] = $this->anggota_model->get_total(array("anggota_level" => 10, "ukm_id" => $ukmid));
+        $data['boxpengurus'] = $this->anggota_model->get_total(array("anggota_level" => 11, "ukm_id" => $ukmid));
+        $data['boxnon'] = $this->anggota_model->get_total(array("anggota_status" => 0, "ukm_id" => $ukmid));
+        $data['boxaktif'] = $this->anggota_model->get_total(array("anggota_status" => 1, "ukm_id" => $ukmid));
 
         echo json_encode($data);
     }
