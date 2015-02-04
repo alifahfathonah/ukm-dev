@@ -25,15 +25,10 @@ dan administrator. setiap user mempunyai hak akses tersendiri. ss
 **License**
 *******
 
-Please see the `license
-agreement <https://github.com/yufieko/ukm-dev/blob/master/LICENSE>`_.
+Please see the [license agreement](https://github.com/yufieko/ukm-dev/blob/master/LICENSE "") 
 
 *********
 **Resources**
 *********
 
 CodeIgniter 3-develop, AdminLTE Template
--  `User Guide <http://www.codeigniter.com/docs>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community IRC <http://www.codeigniter.com/irc>`_
