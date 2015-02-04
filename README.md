@@ -6,6 +6,7 @@ Berisi projek akhir mata kuliah workshop sim, isinya tentang sistem informasi ma
 ukm di kampus kami. mulai dari pelaporan, manajemen agenda, anggota, berita, notifikasi
 dan banyak lagi (dikembangkan). pada sistem ini terdapat 3 level user yaitu ukm, manajemen,
 dan administrator. setiap user mempunyai hak akses tersendiri. ss
+!["UKM-dev preview"](https://raw.githubusercontent.com/yufieko/ukm-dev/master/ukm-dev1-preview.png "UKM-dev preview")
 
 *******************
 Perubahan dan Fitur
