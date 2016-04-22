@@ -28,6 +28,8 @@ class Access {
      * @return boolean
      */
     function login($username, $password) {
+        // var_dump($this->user_model);
+        // die();
         $result = $this->user_model->get_login_info($username);
         if ($result) {
             $password = sha1($password);
